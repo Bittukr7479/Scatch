@@ -2,21 +2,24 @@ const mongoose = require('mongoose');
 
 mongoose.connect("mongodb://127.0.0.1:27017/scatch");
 
-const userScheme = mongoose.Schema({
-    fullname: String,
+const userSchema = mongoose.Schema({
+    fullname: {
+        type: String,
+        minLength: 3,
+        trim: true,
+    },
     email: String,
     password: String,
-    cart: {
-        type: Array,
-        default: []
-    },
-    isadmin: Boolean,
+    cart: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "product",
+    }],
     orders: {
         type: Array,
-        default: []
+        default: [],
     },
     contact: Number,
     picture: String,
 })
 
-module.exports = mongoose.model("user", userScheme);
+module.exports = mongoose.model("user", userSchema);
